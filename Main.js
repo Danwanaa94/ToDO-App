@@ -40,10 +40,10 @@ for(el of arr){
    `<li id =${el}>
    <div class="todo">
    <p>${el}</p>
-   <input typr="text" class="hide"/>
+   <input type="text" class="hide"/>
    </div>
     <div class="btns">
-    <buttons>Edit</button>
+    <button>Edit</button>
     <button>Save</button>
     <button>Delete</button>
     </div>
@@ -53,3 +53,52 @@ for(el of arr){
 todoList.innerHTML =htmlArr
 //informText()
 }
+
+
+
+
+
+
+//sign in function
+const signIn = document.querySelector(".logo-wrap p")
+const modal = document.querySelector("#modal")
+const userNm = document.querySelector("input")
+const signBtn = document.querySelector("button")
+const disModal = document.querySelector("span")
+
+signIn.addEventListener("click", () =>{
+    modal.style.display="flex"
+})
+disModal.addEventListener("click",(e)=>{
+    modal.style.display="none"
+})
+modal.addEventListener("click",(e)=>{
+    e.target==modal? modal.style.display ="none":null
+})
+
+//function to log in user and save todo List
+signBtn.addEventListener("click",() =>{
+    user = userNm.value
+    if (user == ""){
+        userNm.classList.add("error")
+    }else{
+        userNm.classList.remove("error")
+        signIn.innerText = user      //changing the "sign in" text to username
+        todoArray.clear()
+        userNm.value = ""
+
+        let db =[...todoArray]
+        let _db =(JSON.stringify(db))
+        let userData = localStorage.getItem(user)
+
+        if(userData){
+            let _userData = JSON.parse(userData)
+            todoArray = new Set(_userData)
+            setTodo(todoArray)
+            modal.style.display ="none"
+        }else{
+            localStorage.setItem(user, _db)
+            modal.style.display ="none"
+        }
+    }
+})
